@@ -35,6 +35,7 @@ End
 		  ' Create a preferences object. You should probably make this an App property.
 		  ' Note the `True` value passed to the constructor. This will immediately write 
 		  ' changes to the preferences file whenever a preference value is changed.
+		  ' This defaults to False.
 		  Dim myPreferences As New PreferencesKit.Preferences(True)
 		  
 		  ' Get the file to use to store the preferences. 
@@ -46,13 +47,18 @@ End
 		    Quit
 		  End If
 		  
-		  ' Get a value.
-		  Dim username As Text = myPreferences.username ' Remember the key is case-sensitive.
+		  ' Get a value. For example, a username. Remember, the key is case-sensitive.
+		  Dim username As Text = myPreferences.username
 		  
-		  username = "Aoife"
-		  myPreferences.username = username
+		  ' You can obviously set values too. Even if they don't yet exist in the preferences file.
+		  myPreferences.myNewNumber = 104.1
 		  
-		  'Break
+		  Break
+		  
+		  Exception err As PreferencesKit.PreferenceNotFoundException
+		    ' This will happen in this example if your preferences file does not contain 
+		    ' a key called `username`
+		    Break
 		End Sub
 	#tag EndEvent
 
