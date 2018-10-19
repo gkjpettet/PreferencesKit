@@ -43,8 +43,8 @@ Break
 ## How to help
 When using `PreferencesKit` in your own applications, if you run into a bug:
 
-1. At bare minimum, raise an issue at [https://github.com/gkjpettet/PreferencesKit/issues].
-2.  Better yet, fork the repo, fix the bug and submit a pull request, [https://github.com/gkjpettet/PreferencesKit/fork].
+1. At bare minimum, raise an issue at https://github.com/gkjpettet/PreferencesKit/issues.
+2.  Better yet, fork the repo, fix the bug and submit a pull request, https://github.com/gkjpettet/PreferencesKit/fork.
 3.  Best, fork the repo, add a unit test exposing the bug, fix the bug, and then submit a pull request (see #2).
 
 [javier]: https://blog.xojo.com/2018/06/20/create-a-preferences-class-with-operator_lookup
