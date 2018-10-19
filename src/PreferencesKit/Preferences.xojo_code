@@ -29,6 +29,54 @@ Protected Class Preferences
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Load(prefsFile As FolderItem) As Boolean
+		  ' Loads the passed preferences file (which should be valid JSON).
+		  ' If `prefsFile` doesn't exist then a new file with an empty JSON 
+		  ' object is created.
+		  
+		  Using Xojo.Core
+		  Using Xojo.Data
+		  Using Xojo.IO
+		  
+		  If prefsFile = Nil Then Return False
+		  
+		  ' Convert this classic FolderItem to the modern framework and keep a reference to it.
+		  mPreferencesFile = New Xojo.IO.FolderItem(prefsFile.NativePath.ToText)
+		  
+		  ' If the preferences file doesn't exist then create it.
+		  If Not mPreferencesFile.Exists Then
+		    Dim tout As TextOutputStream
+		    tout = TextOutputStream.Create(mPreferencesFile, TextEncoding.UTF8)
+		    ' Create an empty JSON object (so that the file is valid JSON).
+		    tout.Write("{}")
+		    tout.Close
+		  End If
+		  
+		  ' Open the file for reading.
+		  Dim tin As TextInputStream
+		  tin = TextInputStream.Open(mPreferencesFile, TextEncoding.UTF8)
+		  
+		  ' Get the contents of the file (should be JSON).
+		  Dim data As Text = tin.ReadAll
+		  
+		  ' Close the file.
+		  tin.Close
+		  
+		  ' Attempt to parse the contents of the file into a Dictionary.
+		  mPreferences = ParseJSON(data)
+		  return True
+		  
+		  Exception err As IOException
+		    ' Unable to create or open the preferences file.
+		    Return False
+		    
+		  Exception err As InvalidJSONException
+		    ' Unable to parse the contents of the preferences file.
+		    Return False
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Load(prefsFile As Xojo.IO.FolderItem) As Boolean
 		  ' Loads the passed preferences file (which should be valid JSON).
 		  ' If `prefsFile` doesn't exist then a new file with an empty JSON 
@@ -202,6 +250,12 @@ Protected Class Preferences
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="AutoSave"
+			Group="Behavior"
+			InitialValue="False"
+			Type="Boolean"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
