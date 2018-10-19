@@ -9,6 +9,22 @@ Protected Class Preferences
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Dump() As Text
+		  ' Return the preferences as JSON.
+		  
+		  If mPreferences <> Nil Then
+		    Return Xojo.Data.GenerateJSON(mPreferences)
+		  Else
+		    Return "{}"
+		  End If
+		  
+		  Exception err As Xojo.Core.InvalidArgumentException
+		    Raise New PreferencesKit.Error("One or more of the values cannot be converted to a JSON data type")
+		    
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Get(name As Text) As Auto
 		  ' Allow lookup of preference using this syntax:
 		  ' Dim top As Integer = Preferences.Get("MainWindowTop")

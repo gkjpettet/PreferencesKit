@@ -6,6 +6,7 @@ Window=Window1;Window1.xojo_window;&h000000005AF0EFFF;&h0000000000000000;false
 MenuBar=MainMenuBar;MainMenuBar.xojo_menu;&h000000005A87EFFF;&h0000000000000000;false
 BuildSteps=Build Automation;Build Automation.xojo_code;&h00000000520527FF;&h0000000000000000;false
 Module=PreferencesKit;PreferencesKit.xojo_code;&h000000002F65CFFF;&h0000000000000000;false
+Class=Error;PreferencesKit/Error.xojo_code;&h000000006D6ADFFF;&h000000002F65CFFF;false
 Class=PreferenceNotFoundException;PreferencesKit/PreferenceNotFoundException.xojo_code;&h000000004B5BE7FF;&h000000002F65CFFF;false
 Class=Preferences;PreferencesKit/Preferences.xojo_code;&h00000000329947FF;&h000000002F65CFFF;false
 DefaultWindow=Window1
