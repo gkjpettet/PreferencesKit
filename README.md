@@ -2,7 +2,7 @@
 A Xojo module for saving and loading application preferences.
 
 ## About
-This class is inspired by [Javier Menendez's preferences example][javier] and [Paul Lefebvre's blog post][paul]. It provides a robust cross-platform way to save and load preferences using a JSON file.
+This class is inspired by [Javier Menendez's preferences example][javier] and [Paul Lefebvre's blog post][paul]. It provides a robust cross-platform way to save and load preferences using a JSON file. It is fully API 2.0 compliant.
 
 ## Installation
 Simply copy the `PreferencesKit` module into any Xojo project (console, desktop, iOS).
@@ -10,34 +10,34 @@ Simply copy the `PreferencesKit` module into any Xojo project (console, desktop,
 ## Usage
 The coolest thing about the `Preferences` class is that it uses the lookup operator overload mechanism to allow you to access the values of properties stored in the JSON preferences file using dot notation. Below gives a basic example of how to use it.
 
-```language-xojo
-' Create a preferences object. You should probably make this an App property.
-' Note the `True` value passed to the constructor. This will immediately write 
-' changes to the preferences file whenever a preference value is changed.
-' This defaults to False.
-Dim myPreferences As New PreferencesKit.Preferences(True)
+```xojo
+// Create a preferences object. You should probably make this an App property.
+// Note the `True` value passed to the constructor. This will immediately write 
+// changes to the preferences file whenever a preference value is changed.
+Var myPreferences As New PreferencesKit.Preferences(True)
 
-' Get the file to use to store the preferences. 
-Dim prefsFile As Xojo.IO.FolderItem = Xojo.IO.SpecialFolder.Documents.Child("myprefs.prefs")
+// Get the file to use to store the preferences. 
+Var prefsFile As FolderItem = SpecialFolder.Documents.Child("myprefs.json")
 
-' Load the preferences.
+// Load the preferences.
 If Not myPreferences.Load(prefsFile) Then
   MsgBox("Unable to load preferences!")
   Quit
 End If
 
-' Get a value. For example, a username. Remember, the key is case-sensitive.
-Dim username As Text = myPreferences.username
+// Get a value. For example, a username. Remember, the key is case-sensitive.
+Var username As String = myPreferences.Username
 
-' You can obviously set values too. Even if they don't yet exist in the preferences file.
-myPreferences.myNewNumber = 105.2
+// You can obviously set values too. Even if they don't yet exist in the preferences file.
+myPreferences.myNewNumber = 104.1
 
 Break
 
 Exception err As PreferencesKit.PreferenceNotFoundException
-' This will happen in this example if your preferences file does not contain 
-' a key called `username`
-Break
+  // This will happen in this example if your preferences file does not contain 
+  // a key called `username`
+  Break
+  
 ```
 
 ## How to help
