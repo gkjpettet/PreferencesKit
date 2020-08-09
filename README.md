@@ -1,5 +1,5 @@
 # PreferencesKit
-A Xojo module for saving and loading application preferences
+A Xojo module for saving and loading application preferences.
 
 ## About
 This class is inspired by [Javier Menendez's preferences example][javier] and [Paul Lefebvre's blog post][paul]. It provides a robust cross-platform way to save and load preferences using a JSON file.
