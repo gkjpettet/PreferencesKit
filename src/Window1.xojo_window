@@ -40,10 +40,12 @@ End
 		  Var prefsFile As FolderItem = SpecialFolder.Documents.Child("myprefs.json")
 		  
 		  // Load the preferences.
-		  If Not myPreferences.Load(prefsFile) Then
-		    MsgBox("Unable to load preferences!")
+		  Try 
+		    myPreferences.Load(prefsFile)
+		  Catch e As RuntimeException
+		    MsgBox("An error occurred loading the preferences: " + e.Message)
 		    Quit
-		  End If
+		  End Try
 		  
 		  // Get a value. For example, a username. Remember, the key is case-sensitive.
 		  Var username As String = myPreferences.Username

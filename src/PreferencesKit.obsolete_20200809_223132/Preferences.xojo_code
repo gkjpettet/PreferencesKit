@@ -62,23 +62,22 @@ Protected Class Preferences
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0, Description = 4C6F6164732061204A534F4E20707265666572656E6365732066696C652E2052616973657320494F457863657074696F6E7320616E6420496E76616C69644A534F4E457863657074696F6E732E
-		Sub Load(prefsFile As FolderItem)
+	#tag Method, Flags = &h0, Description = 4C6F6164732061204A534F4E20707265666572656E6365732066696C652E2052657475726E732054727565206966207375636365737366756C206F722046616C7365206966206E6F742E
+		Function Load(prefsFile As FolderItem) As Boolean
 		  ///
 		  ' Loads a JSON preferences file.
 		  '
 		  ' - Parameter prefsFile: The JSON preferences file to load.
 		  '
-		  ' - Raises: NilObjectException if the passed preferences file is Nil.
-		  ' - Raises: IOException if we can't create or read the preferences file.
-		  ' - Raises: InvalidJSONException if the passed preference file contains invalid JSON.
+		  ' - Returns: True if the preferences were successfully loaded or False if not.
 		  '
 		  ' - Notes:
-		  ' If `prefsFile` doesn't exist then a new file with an empty JSON object is created.
+		  ' If `prefsFile` doesn't exist then a new file with an empty JSON 
+		  ' object is created.
 		  ///
 		  
 		  If prefsFile = Nil Then
-		    Raise New NilObjectException("Cannot load a Nil preferences file.")
+		    Return False
 		  Else
 		    // Keep a reference.
 		    mPreferencesFile = prefsFile
@@ -86,44 +85,40 @@ Protected Class Preferences
 		  
 		  // If the preferences file doesn't exist then create it.
 		  If Not mPreferencesFile.Exists Then
-		    Var tout As TextOutputStream 
-		    Try
-		      tout = TextOutputStream.Create(mPreferencesFile)
-		      tout.Encoding = Encodings.UTF8
-		      
-		      // Create an empty JSON object (so that the file is valid JSON).
-		      tout.Write("{}")
-		      
-		      tout.Close
-		    Catch e As IOException
-		      Raise New IOException("Unable to create a new preferences file.")
-		    End Try
+		    Var tout As TextOutputStream = TextOutputStream.Create(mPreferencesFile)
+		    tout.Encoding = Encodings.UTF8
+		    
+		    // Create an empty JSON object (so that the file is valid JSON).
+		    tout.Write("{}")
+		    
+		    tout.Close
 		  End If
 		  
 		  // Open the file for reading.
-		  Var tin As TextInputStream
-		  Var data As String
-		  Try
-		    tin = TextInputStream.Open(mPreferencesFile)
-		    tin.Encoding = Encodings.UTF8
-		    
-		    // Get the contents of the file (should be JSON).
-		    data = tin.ReadAll
-		    
-		    // Close the file.
-		    tin.Close
-		  Catch e As IOException
-		    Raise New IOException("Unable to open the preferences file for reading.")
-		  End Try
+		  Var tin As TextInputStream = TextInputStream.Open(mPreferencesFile)
+		  tin.Encoding = Encodings.UTF8
 		  
-		  Try
-		    // Attempt to parse the contents of the file into a Dictionary.
-		    mPreferences = ParseJSON(data)
-		  Catch e As InvalidJSONException
-		    Raise New InvalidJSONException("The preferences file contains invalid JSON.")
-		  End Try
+		  // Get the contents of the file (should be JSON).
+		  Var data As String = tin.ReadAll
 		  
-		End Sub
+		  // Close the file.
+		  tin.Close
+		  
+		  // Attempt to parse the contents of the file into a Dictionary.
+		  mPreferences = ParseJSON(data)
+		  
+		  // Done.
+		  Return True
+		  
+		  Exception err As IOException
+		    // Unable to create or open the preferences file.
+		    Return False
+		    
+		  Exception err As InvalidJSONException
+		    // Unable to parse the contents of the preferences file.
+		    Return False
+		    
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, Description = 52657475726E73207468652076616C7565206F6620746865206E616D656420707265666572656E6365206F722072657475726E73207468652064656661756C742076616C7565207370656369666965642E
